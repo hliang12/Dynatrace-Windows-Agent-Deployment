@@ -9,7 +9,7 @@ param(
 	[string]$AGENTVERSON,
 	
 	[Parameter(Mandatory=$True)]
-	[String]$MSISERVER, #\\itm-not-rob01.uk.experian.local  e.g. 
+	[String]$MSISERVER, 
 	
 	[Parameter(Mandatory=$True)]
 	[string]$MSIPATH  #\Dynatrace Software\Software\Windows\Agents example of typical input, path on the MSISERVER <-  this is assuming its a windows server hostng it may have to change and mount if its a linux server
