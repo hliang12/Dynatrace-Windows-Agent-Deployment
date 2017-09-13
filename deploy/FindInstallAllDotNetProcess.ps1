@@ -32,11 +32,11 @@ if($major -lt 2 ){
 	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
 	Write-Host "Version " $major"."$minor"."$build"."$revision
 	exit 1
-}elif( $build -lt 50727 ){
+}elseif( $build -lt 50727 ){
 	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
 	Write-Host "Version " $major"."$minor"."$build"."$revision	
 	exit 1
-}elif( $revision -lt 1433 ){
+}elseif( $revision -lt 1433 ){
 	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
 	Write-Host "Version " $major"."$minor"."$build"."$revision	
 	exit 1
