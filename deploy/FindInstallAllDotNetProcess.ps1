@@ -40,6 +40,8 @@ if($major -lt 2 ){
 	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
 	Write-Host "Version " $major"."$minor"."$build"."$revision	
 	exit 1
+}else{
+	Write-Host "Version of dotnet is fine"
 }
 
 #$currentDir = pwd
