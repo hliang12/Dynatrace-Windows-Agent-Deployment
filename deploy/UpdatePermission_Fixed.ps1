@@ -1,4 +1,14 @@
 
+
+[CmdletBinding()]
+param(
+
+	[Parameter(Mandatory=$True)]
+	[string]$DYNAHOME
+
+	)
+
+
 Write-Host "-----------------------------------------------------------------" -ForegroundColor green
 Write-Host "--              Dynatrace LLC                                  --" -ForegroundColor green
 Write-Host "--              Nicolas Vailliet                               --" -ForegroundColor green
@@ -11,8 +21,9 @@ Set-ExecutionPolicy "RemoteSigned" -Scope Process -Confirm:$false
 Set-ExecutionPolicy "RemoteSigned" -Scope CurrentUser -Confirm:$false
 Write-Host "Ready to run the script if no error." -ForegroundColor green
 
-Write-Host "Install dir is C:\Program Files (x86)\dynaTrace\Dynatrace Agent 6.3"
-Set-Variable -Name "DTHOME" -Value "C:\Program Files (x86)\dynaTrace\Dynatrace Agent 6.3"
+Write-Host "Install dir is $DYNAHOME"
+#Set-Variable -Name "DTHOME" -Value "C:\Program Files (x86)\Dynatrace\Dynatrace Agent 6.5"
+Set-Variable -Name "DTHOME" -Value $DYNAHOME
 
 Write-Host "Retrieving DTHOME rights"
 $acl = (Get-Item $DTHOME).GetAccessControl('Access')
