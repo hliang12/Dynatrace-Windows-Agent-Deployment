@@ -72,7 +72,8 @@ for($i=0; $i -lt $appPoolList.length; $i++){
 	
 		$temp = $appPoolList[$i] -match 'APPPOOL "(.*)"' ### regex out the process name 
 		Write-Host "Setting up agent for " $matches[1] 
-		$agentName = $matches[1]+ "_" + $SystemProfile
+		$appName = $matches[1] -replace '\s',''
+		$agentName = $appName "_" + $SystemProfile
 		
 	    .\InstallDotNetAgent.psi $DTHOME $agentName $CollectorIP -Use64Bit '[ "w3wp.exe -ap \"$matches[1]\"" ]'
 		
