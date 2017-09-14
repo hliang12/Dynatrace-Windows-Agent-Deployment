@@ -12,7 +12,7 @@ param(
 	[String]$MSISERVER, 
 	
 	[Parameter(Mandatory=$True)]
-	[string]$MSIPATH  #\Dynatrace Software\Software\Windows\Agents example of typical input, path on the MSISERVER <-  this is assuming its a windows server hostng it may have to change and mount if its a linux server
+	[string]$MSIPATH,  #\Dynatrace Software\Software\Windows\Agents example of typical input, path on the MSISERVER <-  this is assuming its a windows server hostng it may have to change and mount if its a linux server
 
 	[Parameter(Mandatory=$True)]
 	[string]$DOMAIN,
@@ -43,7 +43,7 @@ Write-Host "Downloading Dynatrace Agent MSI"
 cd $MSISERVER$MSIPATH
 $installerLocation = pwd
 
-Get-ChildItem -Path $installerLocation | Where-Object {$_.Name -match $AgentInstallerFilter} | Copy-Item -Destination $currentDir"\$AgentInstallerFilter"
+Get-ChildItem -Path $installerLocation | Where-Object {$_.Name -match $AgentInstallerFilter} | Copy-Item -Destination $currentDir"\$AgentInstallerFilter.msi"
 
 cd $currentDir
 
