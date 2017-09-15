@@ -74,8 +74,9 @@ for($i=0; $i -lt $appPoolList.length; $i++){
 		Write-Host "Setting up agent for " $matches[1] 
 		$appName = $matches[1] -replace '\s',''
 		$agentName = $appName "_" + $SystemProfile
+		$processEngineString = '[ "w3wp.exe -ap ' + '"' +$processName+'"" ]'
 		
-	    .\InstallDotNetAgent.psi $DTHOME $agentName $CollectorIP -Use64Bit '[ "w3wp.exe -ap \"$matches[1]\"" ]'
+	    .\InstallDotNetAgent.ps1 $DTHOME $agentName $CollectorIP -Use64Bit $processEngineString
 		
 	#}
 	
