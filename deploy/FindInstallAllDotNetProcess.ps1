@@ -21,29 +21,6 @@ Set-ExecutionPolicy "RemoteSigned" -Scope Process -Confirm:$false
 Set-ExecutionPolicy "RemoteSigned" -Scope CurrentUser -Confirm:$false
 Write-Host "Ready to run the script if no error." -ForegroundColor green
 
-#check for CLR version if its below 2.0.50727.8669
-
-$major = $PSVersionTable.CLRVersion.Major
-$minor = $PSVersionTable.CLRVersion.Minor
-$build = $PSVersionTable.CLRVersion.Build
-$revision = $PSVersionTable.CLRVersion.Revision
-
-if($major -lt 2 ){
-	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
-	Write-Host "Version " $major"."$minor"."$build"."$revision
-	exit 1
-}elseif( $build -lt 50727 ){
-	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
-	Write-Host "Version " $major"."$minor"."$build"."$revision	
-	exit 1
-}elseif( $revision -lt 1433 ){
-	Write-Host "Cannot Instrument appPools as CLR version below  2.0.50727.1433 currently on version: "
-	Write-Host "Version " $major"."$minor"."$build"."$revision	
-	exit 1
-}else{
-	Write-Host "Version of dotnet is fine"
-}
-
 #$currentDir = pwd
 $appcmd = [System.Environment]::GetEnvironmentVariable("windir") + "\system32\inetsrv\appcmd.exe"
 #cd inetsrv
@@ -70,13 +47,28 @@ for($i=0; $i -lt $appPoolList.length; $i++){
 		
 	#}else{
 	
+		Write-Host "Getting AppPool Names"
 		$temp = $appPoolList[$i] -match 'APPPOOL "(.*)"' ### regex out the process name 
 		Write-Host "Setting up agent for " $matches[1] 
 		$appName = $matches[1] -replace '\s',''
-		$agentName = $appName "_" + $SystemProfile
-		$processEngineString = '[ "w3wp.exe -ap ' + '"' +$processName+'"" ]'
+        $processName = $matches[1]
+		$agentName = $appName + "_" + $SystemProfile
 		
-	    .\InstallDotNetAgent.ps1 $DTHOME $agentName $CollectorIP -Use64Bit $processEngineString
+		Write-Host "Agent name is :" $agentName
+		
+		$processEngineString = '[ "w3wp.exe -ap ' + '\"' +$processName+'\"" ]'
+		
+		Write-Host = "Process Engine String is : " $processEngineString
+		
+		$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+		
+		Write-Host = "Execution Path of the script is : " $scriptPath
+		
+		$FilePath = $scriptPath + '\InstallDotNetAgent.ps1'
+		
+		Write-Host = "Instrumenting .NET Process now" 
+		
+	    & $FilePath $DTHOME $agentName $CollectorIP -Use64Bit $processEngineString
 		
 	#}
 	
