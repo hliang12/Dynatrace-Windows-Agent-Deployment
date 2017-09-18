@@ -19,6 +19,11 @@ param(
 	[string]$Installer
 )
 
-Import-Module "../modules/Util"
+
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+
+$modulePath = $scriptPath.TrimEnd('y','o','l','p','e','d')
+
+Import-Module "$modulePath/modules/Util.psm1"
 
 Get-FilesFromMSI -Installer $Installer -InstallPath $InstallPath

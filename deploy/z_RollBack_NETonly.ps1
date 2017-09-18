@@ -17,9 +17,13 @@ Write-Host "Ready to run the script if no error." -ForegroundColor green
 #	exit 1
 #}
 
-Import-Module "../modules/Util" 
-Import-Module "../modules/InstallDotNETAgent" 
-Import-Module "../modules/InstallWebserverAgent"
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition  ### fix for using BL
+
+$modulePath = $scriptPath.TrimEnd('y','o','l','p','e','d')
+
+Import-Module "$modulePath/modules/Util.psm1" 
+Import-Module "$modulePath/modules/InstallDotNETAgent.psm1" 
+Import-Module "$modulePath/modules/InstallWebserverAgent.psm1"
 
 Write-Host "Removing Application Pool agent injection in registry"
 # Delete white list and reset environment variables
