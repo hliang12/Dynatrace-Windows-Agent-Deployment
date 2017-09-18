@@ -36,6 +36,16 @@ Write-Host "Collector IP is $CollectorIP"
 
 Write-Host "Install dir is $DTHOME"
 
-.\InstallDotNetAgent.ps1 $DTHOME '$AgentName' '$CollectorIP' -Use64Bit '[ "w3wp.exe -ap \"$ProcessEngine\""]'
+$processEngineString = '[ "w3wp.exe -ap ' + '\"' +$ProcessEngine+'\"" ]'
+
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+		
+Write-Host = "Execution Path of the script is : " $scriptPath
+		
+$FilePath = $scriptPath + '\InstallDotNetAgent.ps1'
+
+#.\InstallDotNetAgent.ps1 $DTHOME '$AgentName' '$CollectorIP' -Use64Bit '[ "w3wp.exe -ap \"$ProcessEngine\""]'
+
+& FilePath $DTHOME $AgentName $CollectorIP -Use64Bit $processEngineString
 
 iisreset

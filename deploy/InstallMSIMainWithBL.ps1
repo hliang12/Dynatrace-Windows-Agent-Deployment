@@ -17,15 +17,24 @@ $InstallerName = Get-ChildItem *.msi -name
 
 ###GET MSI NAME
 
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+		
+Write-Host = "Execution Path of the script is : " $scriptPath
+		
+$FilePathRegBat = $scriptPath + '\registry_backup.bat'
+$FilePathMSIInstaller = $scriptPath + '\InstallMSI.ps1'
+
 Write-Host "About to install Dynatrace MSI" 
 
 Write-Host "Running registry backup task..."
-.\registry_backup.bat
+#.\registry_backup.bat
+& FilePathRegBat
 Write-Host "Done, if no errors" -ForegroundColor green
 
 Write-Host "Installing Agent MSI in Program Files..."
 
-.\InstallMSI.ps1 $DTHOME $InstallerName
+#.\InstallMSI.ps1 $DTHOME $InstallerName
+& FilePathMSIInstaller $DTHOME $InstallerName
 Write-Host "Done, if no errors" -ForegroundColor green
 
 
