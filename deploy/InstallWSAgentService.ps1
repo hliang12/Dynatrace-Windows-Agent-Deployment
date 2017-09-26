@@ -25,8 +25,12 @@ param(
 Set-ExecutionPolicy "RemoteSigned" -Scope Process -Confirm:$false
 Set-ExecutionPolicy "RemoteSigned" -Scope CurrentUser -Confirm:$false
 
-Import-Module "../modules/Util" 
-Import-Module "../modules/InstallWebserverAgent" 
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition  ### fix for using BL
+
+$modulePath = $scriptPath.TrimEnd('y','o','l','p','e','d')
+
+Import-Module "$modulePath/modules/Util.psm1" 
+Import-Module "$modulePath/modules/InstallWebserverAgent.psm1" 
 
 
 $ServiceName = "Dynatrace Webserver Agent"

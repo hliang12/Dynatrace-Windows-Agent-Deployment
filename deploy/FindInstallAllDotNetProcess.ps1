@@ -1,3 +1,20 @@
+<#
+.SYNOPSIS
+    Instruments all .NET process found in IIS with the .Net Agent
+.DESCRIPTION
+    Checks if Dynatrace .NET agent is already configured. 
+    If yes it rewrites it's configuration. 
+    If there's already 3rd party .NET profiler configured, Dynatrace .NET agent installation is skipped.
+.PARAMETER DTHOME
+    "root" directory of the Dynatrace agent's. Agent DLL's are referenced relative from this directory <DTHOME>\agent\lib\dtagent.dll
+.PARAMETER SystemProfile
+   System Profile that the agent will match against
+.PARAMETER CollectorIP
+    <HostnameOrIP>[:Port]
+.PARAMETER Use64Bit
+    Boolean value to force usage of 64-bit agent
+
+#>
 [CmdletBinding()]
 param(
 	#[Parameter(Mandatory=$True)]

@@ -36,8 +36,13 @@ param(
     [string] $JSONProcessList
 )
 
-Import-Module "../modules/Util" 
-Import-Module "../modules/InstallDotNETAgent" 
+
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition  ### fix for using BL
+
+$modulePath = $scriptPath.TrimEnd('y','o','l','p','e','d')
+
+Import-Module "$modulePath/modules/Util.psm1" 
+Import-Module "$modulePath/modules/InstallDotNETAgent.psm1" 
 
 # Set-ExecutionPolicy Unrestricted
 Set-ExecutionPolicy "RemoteSigned" -Scope Process -Confirm:$false
