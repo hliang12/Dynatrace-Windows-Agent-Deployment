@@ -23,28 +23,38 @@ Set-ExecutionPolicy "RemoteSigned" -Scope Process -Confirm:$false
 Set-ExecutionPolicy "RemoteSigned" -Scope CurrentUser -Confirm:$false
 Write-Host "Ready to run the script if no error." -ForegroundColor green
 
-$InstallerName = Get-ChildItem *.msi -name
 
 ###GET MSI NAME
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+
+Write-Host = $scriptPath "script path" 
+
+$InstallerName = Get-ChildItem $scriptPath\*.msi -name
 		
+Write-Host = $InstallerName "Installer name"
+
 Write-Host = "Execution Path of the script is : " $scriptPath
 		
+
 $FilePathRegBat = $scriptPath + '\registry_backup.bat'
 $FilePathMSIInstaller = $scriptPath + '\InstallMSI.ps1'
 
+Write-Host $FilePathRegBat
+Write-Host $FilePathMSIInstaller
 Write-Host "About to install Dynatrace MSI" 
 
 Write-Host "Running registry backup task..."
 #.\registry_backup.bat
-& FilePathRegBat
+& $FilePathRegBat
 Write-Host "Done, if no errors" -ForegroundColor green
 
 Write-Host "Installing Agent MSI in Program Files..."
 
+$fullPathtoMSI = $scriptPath+'\'+$InstallerName
+
 #.\InstallMSI.ps1 $DTHOME $InstallerName
-& FilePathMSIInstaller $DTHOME $InstallerName
+& $FilePathMSIInstaller $DTHOME $fullPathtoMSI 
 Write-Host "Done, if no errors" -ForegroundColor green
 
 

@@ -32,6 +32,7 @@ Function Get-FilesFromMSI([string]$Installer, [string]$InstallPath)
     Targetfolder 
         
 #>
+
 	if (!(Test-Path $InstallPath)) #already installed?
 	{
 		if (!(Test-Path $Installer)) 

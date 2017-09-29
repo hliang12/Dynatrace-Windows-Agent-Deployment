@@ -36,6 +36,7 @@ param(
     [string] $JSONProcessList
 )
 
+Write-Host = $CollectorHost + " should be the collector ip"
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition  ### fix for using BL
 

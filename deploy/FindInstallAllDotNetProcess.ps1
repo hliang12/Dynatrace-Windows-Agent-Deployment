@@ -84,6 +84,7 @@ for($i=0; $i -lt $appPoolList.length; $i++){
 		$FilePath = $scriptPath + '\InstallDotNetAgent.ps1'
 		
 		Write-Host = "Instrumenting .NET Process now" 
+		Write-Host = $agentName +" " + $CollectorIP
 		
 	    & $FilePath $DTHOME $agentName $CollectorIP -Use64Bit $processEngineString
 		

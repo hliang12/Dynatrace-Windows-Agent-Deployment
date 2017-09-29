@@ -84,6 +84,7 @@ Function Enable-DotNETAgent([string] $InstallPath, [string]$AgentName, [string]$
 #>
 	"Setting up .NET Agent '$AgentName'..."
 
+	Write-Host = "Should have collector ip here module  " $CollectorHost
 	#.NET Agent Configuration
     if ($ProcessList.Length -gt 0)
     {
