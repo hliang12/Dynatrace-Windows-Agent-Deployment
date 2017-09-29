@@ -38,12 +38,13 @@ Set-ExecutionPolicy "RemoteSigned" -Scope Process -Confirm:$false
 Set-ExecutionPolicy "RemoteSigned" -Scope CurrentUser -Confirm:$false
 Write-Host "Ready to run the script if no error." -ForegroundColor green
 
-#$currentDir = pwd
+
 $appcmd = [System.Environment]::GetEnvironmentVariable("windir") + "\system32\inetsrv\appcmd.exe"
-#cd inetsrv
+
 
 ##$appPools = .\appcmd.exe list app ## or list wp
 
+### grab the list of apppools names usng appcmd from system32\inetsrv
 $appPools = iex "$appcmd list apppool" 
 
 $appPoolList = $appPools -split "\n" ## 
@@ -52,19 +53,13 @@ $appPoolList = $appPools -split "\n" ##
 
 #$appPoolListVer = $temp -split "\n"
 
+## run through each appPool and instrument
 for($i=0; $i -lt $appPoolList.length; $i++){
 
-	#$getAppversion = $appPoolList[$i] -match 'MgdVersion:v(.*),Mgd'
-	#$testVersion = $matches[1] -as[Double]
 	
-	#if($testVersion -lt 3.5){
-	
-	#	$unsupportedApp = $appPoolList[$i] -match 'APPPOOL "(.*)"' 
-	#	Write-Host $matches[1] "is running an outdated version of .net, it's running version: " $testVersion
-		
-	#}else{
-	
+	## will grab all the processes 
 		Write-Host "Getting AppPool Names"
+		## regex out the apppool name
 		$temp = $appPoolList[$i] -match 'APPPOOL "(.*)"' ### regex out the process name 
 		Write-Host "Setting up agent for " $matches[1] 
 		$appName = $matches[1] -replace '\s',''
@@ -73,9 +68,13 @@ for($i=0; $i -lt $appPoolList.length; $i++){
 		
 		Write-Host "Agent name is :" $agentName
 		
+		## full process engine string to instrument 
 		$processEngineString = '[ "w3wp.exe -ap ' + '\"' +$processName+'\"" ]'
 		
+		
 		Write-Host = "Process Engine String is : " $processEngineString
+		
+		## get execution path of script
 		
 		$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 		
@@ -86,6 +85,7 @@ for($i=0; $i -lt $appPoolList.length; $i++){
 		Write-Host = "Instrumenting .NET Process now" 
 		Write-Host = $agentName +" " + $CollectorIP
 		
+		## exectute the InstallDotNetAgent.ps1
 	    & $FilePath $DTHOME $agentName $CollectorIP -Use64Bit $processEngineString
 		
 	#}
