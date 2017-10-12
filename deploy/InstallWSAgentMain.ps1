@@ -47,15 +47,15 @@ Write-Host "Installing WS Agent service and configure it..."
 $CONFIG = '{ "Name": "'+$AgentName+'", "Server": "'+$CollectorIP+'", "Loglevel": "info", "isMasterAgentServiceInstalled": "true"}'
 
 #.\InstallWSAgentService.ps1 $DTHOME $CONFIG # changed here 
-& FilePathWSService $DTHOME $CONFIG
+& $FilePathWSService $DTHOME $CONFIG
 Write-Host "Done, if no errors" -ForegroundColor green
 
 Write-Host "Installing IIS modules and resetting IIS..."
 #.\InstallWSAgentModuleIIS.ps1 $DTHOME -Use64Bit  ## check is this alwyas 64bit? 
 #.\InstallWSAgentModuleIIS.#ps1 $DTHOME
 
-& FilePathWSModule $DTHOME -Use64Bit
-& FilePathWSModule $DTHOME 
+& $FilePathWSModule $DTHOME -Use64Bit
+& $FilePathWSModule $DTHOME 
 Write-Host "Done, if no errors" -ForegroundColor green
 
 
